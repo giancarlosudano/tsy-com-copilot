@@ -30,6 +30,8 @@ Mail: {mail_body}
 il file json è il seguente:
 
 {json}
+
+Nella risposta non nominare mai il file json.
 """
 
         json_scadenze = """
