@@ -30,13 +30,13 @@ def check_deployment():
 try:
     StreamlitHelper.hide_footer()
 
-    st.title("Matching CV e Job Description con Open AI")
+    st.title("Commercialisti - Copilot Scadenze")
     
     llm_helper = LLMHelper()
 
     col1, col2, col3 = st.columns([1,2,1])
-    # with col1:
-        # st.image(os.path.join('images','isp.png'))
+    with col1:
+        st.image(os.path.join('images','teamsystem-logo.jpeg'))
     with col3:
         st.button("Controllo Deployment", on_click=check_deployment)
 
@@ -45,16 +45,11 @@ try:
             [os.environ['OPENAI_ENGINE']]
         )
     
-    st.session_state["token_response"] = st.slider("Tokens response length", 100, 1000, 1000)
+    st.session_state["token_response"] = st.slider("Tokens response length", 100, 1000, 500)
     st.session_state["temperature"] = st.slider("Temperature", 0.0, 1.0, 0.1)
     st.session_state['delay'] = st.slider("Delay for any call in iterations", 0, 90, 1)
-
-    exp = st.expander("Impostazioni avanzate (non ancora usate)", expanded=False)
-
-    st.session_state['top_p'] = exp.slider("Top P", 0.0, 1.0, 0.9)
-    st.session_state['frequency_penalty'] = exp.slider("Frequency Penalty", 0.0, 1.0, 0.0)
-    st.session_state['presence_penalty'] = exp.slider("Presence Penalty", 0.0, 1.0, 0.6)
-    st.session_state['best_of'] = exp.slider("Best of", 1, 10, 1)
+    st.session_state['top_p'] = st.slider("Top P", 0.0, 1.0, 0.9)    
+    st.session_state['best_of'] = st.slider("Best of", 1, 5, 1)
     
 except Exception:
     st.error(traceback.format_exc())

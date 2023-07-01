@@ -89,36 +89,13 @@ class LLMHelper:
         self.user_agent: UserAgent() = UserAgent()
         self.user_agent.random
 
-    def get_semantic_answer_lang_chain(self, question, chat_history):
-        question_generator = LLMChain(llm=self.llm, prompt=CONDENSE_QUESTION_PROMPT, verbose=False)
-        doc_chain = load_qa_with_sources_chain(self.llm, chain_type="stuff", verbose=False, prompt=PROMPT)
-        chain = ConversationalRetrievalChain(
-            retriever=self.vector_store.as_retriever(),
-            question_generator=question_generator,
-            combine_docs_chain=doc_chain,
-            return_source_documents=True,
-            # top_k_docs_for_context= self.k
-        )
-        result = chain({"question": question, "chat_history": chat_history})
-        context = "\n".join(list(map(lambda x: x.page_content, result['source_documents'])))
-        sources = "\n".join(set(map(lambda x: x.metadata["source"], result['source_documents'])))
-
-        container_sas = self.blob_client.get_container_sas()
-        
-        result['answer'] = result['answer'].split('SOURCES:')[0].split('Sources:')[0].split('SOURCE:')[0].split('Source:')[0]
-        sources = sources.replace('_SAS_TOKEN_PLACEHOLDER_', container_sas)
-
-        return question, result['answer'], context, sources
-
-    def get_completion(self, prompt, **kwargs):
-        if self.deployment_type == 'Chat':
-            return self.llm([HumanMessage(content=prompt)]).content
-        else:
-            return self.llm(prompt)
-
-    def get_hr_completion(self, prompt: str):
+    def get_completion(self, prompt: str):
         messages = [
-            SystemMessage(content="Sei un'assistente virtuale che lavora nella divisione Human Resources di una grande azienda e aiuta a fare analisi di Curruculum Vitae (CV) e Job Description (JD). Aiuti ad estrarre informazioni come le competenze richieste dalle job description per fare match con quelle espresse nei CV"),
+            SystemMessage(content=
+"""Sei un'assistente di un commercialista e aiuti a rispondere alle mail dei suoi clienti. Che chiedono informazioni sulle rate, scadenze e tasse da pagare. 
+che lavora nella divisione Human Resources di una grande azienda e aiuta a fare analisi di Curruculum Vitae (CV)
+e Job Description (JD). Aiuti ad estrarre informazioni come le competenze richieste dalle job description
+per fare match con quelle espresse nei CV)"""),
             HumanMessage(content=prompt)]
         return self.llm(messages).content
         

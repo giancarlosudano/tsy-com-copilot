@@ -1,0 +1,38 @@
+Da: XXXXX
+
+Inviato: lunedì 5 giugno 2023 11:33
+A: YYYYYY
+Oggetto: RATEIZZAZIONE
+
+Ciao Daniele, Simone
+
+A fronte di questo piano di rateazione dello scorso anno mi mancano i bollettini per pagare le rate 13,14 e 15  dal 10 giugno in avanti, avete modo di recuperarle
+
+grazie
+
+ 
+
+ 
+
+A: Buongiorno, in allegato quanto richiesto. Al momento non è ancora possibile stampare l’ultimo bollettino (15esima rata).
+
+ 
+
+Le scadenze sono 25.
+
+I campi del json sono abbastanza parlanti, vi sintetizzo qui il significato:
+
+Id : id della scadenza
+workspaceID: id del cliente
+scope: tipologia di scadenza. Può assumere valore “credit”/”debit” per scadenze di fatture di vendita/acquisto, oppure “fiscal_social_security” per le scadenze fiscali”
+description: descrizione della scadenza
+counterpart: informazioni sulla controparte coinvolta
+itemDetails: informazioni anagrafiche del cliente
+attachments: array di id documenti su documentale
+ 
+
+nel json, solo le prime 4 su 25 sono scadenze fiscali. La prima non centra niente con la richiesta dell’utente perché è un 730, mentre seconda, terza e quarta sono quelle che la POC dovrebbe riconoscere.
+
+A disposizione per qualsiasi dubbio
+
+Gianluca
