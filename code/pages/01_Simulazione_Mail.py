@@ -20,7 +20,7 @@ try:
     mail_object = st.text_input(label="Oggetto della mail:", value=object_default)
     mail_body = st.text_area(label="Corpo della mail:", value=body_default, height=300)
      
-    if st.button(label="Calcola match"):
+    if st.button(label="Crea risposta"):
         prompt ="""Rispondi alla seguente mail delimitata da ### con i dati del cliente forniti nel file json che rappresenta la scadenze fiscali del cliente.
 ###
 Oggetto: {mail_object}
